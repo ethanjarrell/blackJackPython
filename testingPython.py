@@ -1,5 +1,5 @@
 import random
-iterations = 100000
+iterations = 10
 sumValue = [["2: ", 0, 0, 0, 0, 0, 0, 0, 0], ["3: ", 0, 0, 0, 0, 0, 0, 0, 0], ["4: ", 0, 0, 0, 0, 0, 0, 0, 0], ["5: ", 0, 0, 0, 0, 0, 0, 0, 0], ["6: ", 0, 0, 0, 0, 0, 0, 0, 0], ["7: ", 0, 0, 0, 0, 0, 0, 0, 0], ["8: ", 0, 0, 0, 0, 0, 0, 0, 0], ["9: ", 0, 0, 0, 0, 0, 0, 0, 0], ["10: ", 0, 0, 0, 0, 0, 0, 0, 0], ["11: ", 0, 0, 0, 0, 0, 0, 0, 0], [
     "12: ", 0, 0, 0, 0, 0, 0, 0, 0], ["13: ", 0, 0, 0, 0, 0, 0, 0, 0], ["14: ", 0, 0, 0, 0, 0, 0, 0, 0], ["15: ", 0, 0, 0, 0, 0, 0, 0, 0], ["16: ", 0, 0, 0, 0, 0, 0, 0, 0], ["17: ", 0, 0, 0, 0, 0, 0, 0, 0], ["18: ", 0, 0, 0, 0, 0, 0, 0, 0], ["19: ", 0, 0, 0, 0, 0, 0, 0, 0], ["20: ", 0, 0, 0, 0, 0, 0, 0, 0], ["21: ", 0, 0, 0, 0, 0, 0, 0, 0], ["21+: ", 0, 0, 0, 0, 0, 0, 0, 0]]
 
@@ -8,6 +8,8 @@ def hand():
     deck = []
     value = range(1, 14)
     for i in value:
+        if i == 10 or i == 11 or i == 12 or i == 13:
+            i = 10
         d = "D-"+str(i)
         c = "C-"+str(i)
         s = "S-"+str(i)
@@ -16,6 +18,7 @@ def hand():
         deck.append(c)
         deck.append(s)
         deck.append(h)
+        print deck
     hand = []
     hand2 = []
     card1 = random.choice(deck)
@@ -29,7 +32,17 @@ def hand():
 
     value1 = int(hand[0].split("-")[1])
     value2 = int(hand[1].split("-")[1])
+    if value1 == 1:
+        value1 = 11
+    if value2 == 1:
+        value2 = 11
     sum1 = value1 + value2
+    if sum1 > 21 and value2 == 11:
+        value2 = 1
+        sum1 = value1 + value2
+    if sum1 > 21 and value1 == 11:
+        value1 = 1
+        sum1 = value1 + value2
     if sum1 == 2:
         sumValue[0][1] = sumValue[0][1] + 1
         card3 = random.choice(deck)
@@ -627,8 +640,9 @@ for i in myRange:
 for i in sumValue:
     percent = 100 * float(i[1])/float(iterations)
     i[2] = percent
-    percent2 = 100 * float(i[3])/float(i[1])
-    i[4] = percent2
+    if i[1] != 0:
+        percent2 = 100 * float(i[3])/float(i[1])
+        i[4] = percent2
     if i[3] != 0:
         percent3 = 100 * float(i[5])/float(i[3])
         i[6] = percent3
